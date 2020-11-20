@@ -73,3 +73,5 @@ def tree_print(tree, level=0):
             else:
                 print(ind * level + jonc + ' ' + tree[value])
 
+#tree_print()
+
