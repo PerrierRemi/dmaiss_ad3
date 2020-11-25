@@ -4,6 +4,7 @@
 import pandas as pd
 from numpy import log2, unique
 import PySimpleGUI as sg
+from firebase import firebase
 
 
 class AD3():
@@ -77,6 +78,7 @@ class AD3():
 
     ]
 
+ 
 
     # Display the window and get values
     count = 1
@@ -96,7 +98,20 @@ class AD3():
             break      
 
     window.close()
+    
+    firebase = firebase.FirebaseApplication("https://dmaiss-ad3-db.firebaseio.com/", None)
+    
+    data = {
+        'Answers' : ['Q1A1', 'Q2A2']
+    }
+    #Write the answers in a new users
+    post_result = firebase.post('/Users/', data)
+    print("Well posted ! Don't spam post !")
 
+    #Return {'answers': [{'Q1A1': 'Cheap'}, {'Q1A2': 'Normal price'}, {'Q1A3': 'Over priced '}], 'question_type': 'close', 'txt': 'How would you rate the trip price ?'}
+    get_result = firebase.get('Q1','')
+    print(get_result)
+    
 
 class Node():
     def __init__(self, code_question, prediction=None):
