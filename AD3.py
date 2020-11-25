@@ -3,19 +3,24 @@
 # Dependencies
 import pandas as pd
 from numpy import log2, unique
+import PySimpleGUI as sg
+
 
 class AD3():
     # Step 0 - Shannon Entropy Function
+    @staticmethod
     def shannon_entropy(array):
         pi = array.value_counts() / len(array)
         entropy = - (pi * log2(pi)).sum() # No log(0) in our case since a leaf will be created
         return entropy
 
     # Step 1 - Compute dataset entropy
+    @staticmethod
     def dataset_entropy(dataset_, target):
         return AD3.shannon_entropy(dataset_[target])
 
     # Step 2 - Compute attributes information
+    @staticmethod
     def attribute_entropy(dataset_, attribute, target):
         values_entropy = dataset_[[attribute, target]]\
             .groupby(attribute)\
@@ -28,6 +33,7 @@ class AD3():
         return average_entropy
 
     # Step 3 - Pick attribute with highest gain
+    @staticmethod
     def highest_gain(dataset_, target):
         attributes = dataset_.columns.to_list()
         attributes.remove(target)
@@ -43,6 +49,7 @@ class AD3():
         return best_attribute
 
     # Together - Recursive tree creation
+    @staticmethod
     def create_tree(dataset_, target):
         best_attribute = AD3.highest_gain(dataset_, target)
         tree = Node(best_attribute)
@@ -60,6 +67,26 @@ class AD3():
                 tree.next_questions[value] = AD3.create_tree(sub_dataset_, target)
 
         return tree
+    
+    window = sg.Window('Columns')                                   # blank window
+
+
+    layout =  [
+        [sg.Text('How would you rate the trip price ?')],
+        [sg.Checkbox('cheap'), sg.Checkbox('normal price'), sg.Checkbox('over priced')],
+        [sg.Button('Save'), sg.Button('Exit')]
+
+    ]
+
+
+    # Display the window and get values
+
+    window = sg.Window('Compact 1-line window with column', layout)
+    event, values = window.read()
+    window.close()
+
+    sg.Popup(event, values, line_width=200)
+
 
 class Node():
     def __init__(self, code_question, prediction=None):
@@ -72,3 +99,4 @@ class Node():
 
     def is_answer_know(self, answer_code):
         return answer_code in self.next_questions
+
