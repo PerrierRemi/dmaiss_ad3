@@ -68,24 +68,34 @@ class AD3():
 
         return tree
     
-    window = sg.Window('Columns')                                   # blank window
-
+    sg.theme('DarkAmber')
 
     layout =  [
-        [sg.Text('How would you rate the trip price ?')],
-        [sg.Checkbox('cheap'), sg.Checkbox('normal price'), sg.Checkbox('over priced')],
-        [sg.Button('Save'), sg.Button('Exit')]
+        [sg.Text('How would you rate the trip price ?', key = 'question')],
+        [sg.Radio('cheap', "Radio1", key = '1'), sg.Radio('normal price', "Radio1", key = '2'), sg.Radio('over priced', "Radio1", key = '3'), sg.Radio('other', "Radio1", key = '4')],
+        [sg.Button('Save'), sg.Button('Next'), sg.Button('Exit')]
 
     ]
 
 
     # Display the window and get values
+    count = 1
 
-    window = sg.Window('Compact 1-line window with column', layout)
-    event, values = window.read()
+    window = sg.Window('Question form', layout)
+    while (count < 11) :                             # The Event Loop
+        event, values = window.read() 
+        print(event, values)   
+        if event == 'Next':
+            count +=1
+            window.FindElement('question').update(count)
+            window.FindElement('1').update('')
+            window.FindElement('2').update('')
+            window.FindElement('3').update('')
+            window.FindElement('4').update('')
+        if event == sg.WIN_CLOSED or event == 'Exit':
+            break      
+
     window.close()
-
-    sg.Popup(event, values, line_width=200)
 
 
 class Node():
