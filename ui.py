@@ -26,7 +26,6 @@ class View():
 
     def show_open_question(self, question):
         qtxt = self.quizz[question.code_question]['txt']
-        print(qtxt)
         self.window.FindElement('question').update(qtxt)
         self.window.FindElement('0').update(visible=True)
 
