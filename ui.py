@@ -11,7 +11,6 @@ class View():
         ]
         self.window = sg.Window('Application', layout, element_justification='l')
         event, values = self.window.read()
-        print('end')
 
 
     def show_close_question(self, question):
