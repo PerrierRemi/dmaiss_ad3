@@ -6,10 +6,10 @@ class View():
         self.quizz = quizz
         layout = [
             [sg.Text('Press Next to start Quizz', key='question', size=(40, 1))],
-            [sg.InputText(key='0', visible=False)]  + [sg.Radio('', "Radio1", key=str(i), visible=False) for i in range(1, 6)],
+            [sg.InputText(key='0', visible=False), sg.Column([[sg.Radio('', "Radio1", key=str(i), visible=False)] for i in range(1, 6)], key='c')], 
             [sg.Button('Next')]
         ]
-        self.window = sg.Window('Application', layout, element_justification='l')
+        self.window = sg.Window('Application', layout, size=(400, 250))
         event, values = self.window.read()
 
 
@@ -17,6 +17,7 @@ class View():
         qtxt = self.quizz[question.code_question]['txt']
         self.window.FindElement('question').update(qtxt)
 
+        self.window.FindElement('c').update(visible=True)
         for i, code in enumerate(question.next_questions, start=1):
             cb = self.window.FindElement(str(i))
             cb.update(text=self.quizz[question.code_question]['answers'][code], visible=True)
@@ -27,7 +28,9 @@ class View():
         qtxt = self.quizz[question.code_question]['txt']
         self.window.FindElement('question').update(qtxt)
         self.window.FindElement('0').update(visible=True)
-
+        # Show/Hide to move text box to the left
+        self.window.FindElement('c').update(visible=True)
+        self.window.FindElement('c').update(visible=False)
 
     def hide_all(self):
         self.window.FindElement('0').update('', visible=False)
