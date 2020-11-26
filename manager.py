@@ -20,7 +20,7 @@ Need to be done :
 import json
 
 from ui import View
-from ad3 import Node
+from AD3 import Node
 
 class Manager():
 
