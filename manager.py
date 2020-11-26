@@ -18,9 +18,8 @@ Need to be done :
     - DB connection
 """
 import json
-
 from ui import View
-from ad3 import Node
+from AD3 import Node
 
 class Manager():
 

@@ -1,5 +1,5 @@
 """Manage connection to FireBase database."""
-import firebase
+from firebase import firebase
 
 # Etienne code
 
