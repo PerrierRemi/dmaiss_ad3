@@ -12,7 +12,7 @@ data = {
 post_result = firebase.post('/Users/', data)
 print("Well posted ! Don't spam post !")
 
-#Return {'answers': [{'Q1A1': 'Cheap'}, {'Q1A2': 'Normal price'}, {'Q1A3': 'Over priced '}], 'question_type': 'close', 'txt': 'How would you rate the trip price ?'}
+# Return {'answers': [{'Q1A1': 'Cheap'}, {'Q1A2': 'Normal price'}, {'Q1A3': 'Over priced '}], 'question_type': 'close', 'txt': 'How would you rate the trip price ?'}
 get_result = firebase.get('Q1','')
 print(get_result)
 
