@@ -27,6 +27,7 @@ class Manager():
     def __init__(self):
         self.quizz = json.load(open('quizz.json', 'r'))
         self.app = View(self.quizz)
+        self.answers = {}
 
 
     def show_question(self, qnode):
@@ -43,11 +44,14 @@ class Manager():
 
     def all_quizz(self):
         for qcode in self.quizz:
+            if qcode in self.answers: # If unknow answer for open question ask every no-asked question
+                continue
             node = Node(qcode)
             node.next_questions = self.quizz[qcode]['answers']
             self.show_question(node)
             user_answer = self.app.get_answer()
             print(user_answer)
+            self.answers[qcode] = user_answer
 
 
 m = Manager()
