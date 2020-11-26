@@ -17,3 +17,38 @@ Need to be done :
     - UI for close question | display text + selection menu
     - DB connection
 """
+import json
+
+from ui import View
+from ad3 import Node
+
+class Manager():
+
+    def __init__(self):
+        self.quizz = json.load(open('quizz.json', 'r'))
+        self.app = View(self.quizz)
+
+
+    def show_question(self, qnode):
+        type = self.quizz[qnode.code_question]['question_type']
+        
+        self.app.hide_all()
+
+        if type =='open': 
+            self.app.show_open_question(qnode)
+
+        if type == 'close': 
+            self.app.show_close_question(qnode)
+
+
+    def all_quizz(self):
+        for qcode in self.quizz:
+            node = Node(qcode)
+            node.next_questions = self.quizz[qcode]['answers']
+            self.show_question(node)
+            user_answer = self.app.get_answer()
+            print(user_answer)
+
+
+m = Manager()
+m.all_quizz()
