@@ -18,7 +18,6 @@ Need to be done :
     - DB connection
 """
 import json
-
 from ui import View
 from AD3 import AD3, Node
 from db_connection import FireConnection

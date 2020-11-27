@@ -1,4 +1,5 @@
-import json
+"""Manage connection to FireBase database."""
+from firebase import firebase
 
 from firebase import firebase
 import pandas as pd
