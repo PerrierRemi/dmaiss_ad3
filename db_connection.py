@@ -1,7 +1,6 @@
-"""Manage connection to FireBase database."""
+import json 
 from firebase import firebase
-
-from firebase import firebase
+from numpy.core.fromnumeric import nonzero
 import pandas as pd
 
 class FireConnection():
@@ -11,7 +10,10 @@ class FireConnection():
 
     def get_data(self):
         query = self.db.get('/answers/', None)
-        return pd.DataFrame.from_dict(query, orient='index').reset_index(drop=True)
+        if query is None:
+            return []
+        else:
+            return pd.DataFrame.from_dict(query, orient='index').reset_index(drop=True)
 
     def get_quizz(self):
         query = self.db.get('/quizz/', None)
@@ -24,9 +26,10 @@ class FireConnection():
         self.db.post('/quizz/', quizz)
 
 
-    def _setup(self):
+    def _setup(self): # Obsolete, db is now set-up
         # Upload quizz for the first time
         self.db.delete('/', None)
         self.db.post('/quizz/', json.load(open('quizz.json')))
         print(self.get_quizz())
 
+# FireConnection()._setup()

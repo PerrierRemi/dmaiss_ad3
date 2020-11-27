@@ -1,0 +1,91 @@
+{
+    "Q01": {
+        "question_type": "close",
+        "txt": "How would you rate the trip price ?",
+        "answers": {
+            "Q01A1": "Cheap",
+            "Q01A2": "Normal price",
+            "Q01A3": "Over priced "
+        }
+    },
+    "Q02": {
+        "question_type": "close",
+        "txt": "Did you had any transport issue during the trip ?",
+        "answers": {
+            "Q02A1": "Yes",
+            "Q02A2": "No"
+        }
+    },
+    "Q03": {
+        "question_type": "close",
+        "txt": "Have you already been to this destination before ?",
+        "answers": {
+            "Q03A1": "Yes",
+            "Q03A2": "No"
+        }
+    },
+    "Q04": {
+        "question_type": "close",
+        "txt": "Have you already done a trip with the same company before ?",
+        "answers": {
+            "Q04A1": "Yes",
+            "Q04A2": "No"
+        }
+    },
+    "Q05": {
+        "question_type": "close",
+        "txt": "How would you rate the hostel ?",
+        "answers": {
+            "Q05A1": "Terrible",
+            "Q05A2": "Bad",
+            "Q05A3": "Average",
+            "Q05A4": "Good",
+            "Q05A5": "Fantastic"
+        }
+    },
+    "Q06": {
+        "question_type": "close",
+        "txt": "How would you rate the cost of life in destination ?",
+        "answers": {
+            "Q06A1": "Cheap",
+            "Q06A2": "Normal price",
+            "Q06A3": "Over priced"
+        }
+    },
+    "Q07": {
+        "question_type": "close",
+        "txt": "How would you rate the visits ?",
+        "answers": {
+            "Q07A1": "Terrible",
+            "Q07A2": "Bad",
+            "Q07A3": "Average",
+            "Q07A4": "Good",
+            "Q07A5": "Fantastic"
+        }
+    },
+    "Q08": {
+        "question_type": "close",
+        "txt": "How would you rate food provided in restaurant hostel the visit ?",
+        "answers": {
+            "Q08A1": "Terrible",
+            "Q08A2": "Bad",
+            "Q08A3": "Average",
+            "Q08A4": "Good",
+            "Q08A5": "Fantastic"
+        }
+    },
+    "Q09": {
+        "question_type": "open",
+        "txt": "Did you had any other issue (please describe) ?",
+        "answers": {
+            "Q9A1": ""}
+    },
+    "Q10": {
+        "question_type": "close",
+        "txt": "Did you enjoy your trip ?",
+        "answers": {
+            "Q10A1": "Yes",
+            "Q10A2": "No"
+        }
+    }
+}

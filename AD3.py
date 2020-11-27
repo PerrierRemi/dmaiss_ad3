@@ -1,5 +1,3 @@
-""" AD3 algorithm implementation."""
-
 # Dependencies
 import pandas as pd
 from numpy import log2, unique
