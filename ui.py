@@ -4,7 +4,7 @@ class View():
 
     def __init__(self):
         layout = [
-            [sg.Text('Press Next to start Quizz', key='question', size=(40, 1))],
+            [sg.Text('Press Next to start Quizz', key='question', size=(60, 1))],
             [sg.InputText(key='0', visible=False), sg.Column([[sg.Radio('', "Radio1", key=str(i), visible=False)] for i in range(1, 6)], key='c')], 
             [sg.Button('Next')]
         ]

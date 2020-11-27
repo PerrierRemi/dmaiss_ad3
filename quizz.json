@@ -67,7 +67,7 @@
         "question_type": "close",
         "txt": "How would you rate food provided in restaurant hostel the visit ?",
         "answers": {
-            "Q08A1": "Terrible",
+            "   08A1": "Terrible",
             "Q08A2": "Bad",
             "Q08A3": "Average",
             "Q08A4": "Good",

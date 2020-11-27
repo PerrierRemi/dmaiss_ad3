@@ -58,7 +58,6 @@ class Manager():
                 return _code
         
         new_code = qcode + 'A' + str(len(question['answers']))
-        question['answers'][new_code] = answer
         
         return new_code
 
@@ -72,6 +71,7 @@ class Manager():
         acode = self._question(tree.code_question)
 
         if acode not in tree.next_questions:
+            question['answers'][new_code] = answer
             self._all_quizz()
 
         else:
