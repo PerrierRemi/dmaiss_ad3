@@ -13,6 +13,7 @@ class Manager():
 
         self.app = View()
         
+        self.new_answer = False
         self.target_question = 'Q10'
         self.answers = {}
 
@@ -58,7 +59,9 @@ class Manager():
                 return _code
         
         new_code = qcode + 'A' + str(len(question['answers']))
-        
+        question['answers'][new_code] = answer
+        self.new_answer  = True
+
         return new_code
 
     def __close_question(self, question):
@@ -70,8 +73,7 @@ class Manager():
     def _smart_quizz(self, tree):
         acode = self._question(tree.code_question)
 
-        if acode not in tree.next_questions:
-            question['answers'][new_code] = answer
+        if self.new_answer:
             self._all_quizz()
 
         else:
