@@ -2,6 +2,7 @@
 import json
 from ui import View
 from AD3 import AD3, Node
+from multiprocessing import Process, freeze_support
 from db_connection import FireConnection
 
 class Manager():
@@ -94,5 +95,6 @@ class Manager():
 
 
 if __name__ == '__main__':
+    freeze_support()
     m = Manager()
     m.main()
