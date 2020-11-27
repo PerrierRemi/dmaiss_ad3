@@ -59,7 +59,7 @@ class Manager():
             if _answer == answer:
                 return _code
         
-        new_code = qcode + 'A' + str(len(question['answers']))
+        new_code = qcode + 'A' + str(len(question['answers'] + 1))
         question['answers'][new_code] = answer
         self.new_answer  = True
 

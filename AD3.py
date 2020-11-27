@@ -65,7 +65,6 @@ class AD3():
 
         return tree
 
-
     # Bonus - Display tree
     @staticmethod
     def tree_print(tree, level=0):
