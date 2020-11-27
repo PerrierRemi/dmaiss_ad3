@@ -31,6 +31,7 @@ class Manager():
 
         self.db.add_answers(self.answers)
         self.db.update_quizz(self.quizz)
+        self.app.window.close()
 
 
     def _question(self, qcode):

@@ -56,3 +56,6 @@ class View():
             for key in values:
                 if values[key]:
                     return self.window.FindElement(key).acode
+
+        if event == sg.WIN_CLOSED or event == 'Exit':
+            self.window.Close()
