@@ -57,7 +57,8 @@ class AD3():
             sub_dataset_ = sub_dataset_.drop(best_attribute, axis=1)
 
             # Leaf ?
-            if len(unique(sub_dataset_[target])) == 1:
+            print(sub_dataset_)
+            if len(unique(sub_dataset_[target].dropna())) == 1:
                 tree.next_questions[value] = Node(None, prediction=sub_dataset_[target].iloc[0])
 
             else:
@@ -86,7 +87,7 @@ class Node():
         self.prediction = prediction # If node is terminal, expected answer_code to last question
 
     def is_terminal(self):
-        return bool(self.code_question)
+        return self.code_question is None
 
     def is_answer_know(self, answer_code):
         return answer_code in self.next_questions

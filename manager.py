@@ -20,7 +20,7 @@ class Manager():
     def main(self):
         if len(self.data) > 15:
             tree = AD3.create_tree(self.data, self.target_question)
-            # AD3.tree_print(tree)
+            AD3.tree_print(tree)
             self._smart_quizz(tree)
 
         else:
@@ -50,7 +50,7 @@ class Manager():
         self.app.show_open_question(question)
         answer = self.app.get_answer()
         answer = '' if answer is None else answer
-        
+
         # Search for ID, if none create one
 
         for _code, _answer in question['answers'].items():

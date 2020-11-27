@@ -28,8 +28,6 @@ class FireConnection():
 
     def _setup(self): # Obsolete, db is now set-up
         # Upload quizz for the first time
-        self.db.delete('/', None)
+        # self.db.delete('/', None)
         self.db.post('/quizz/', json.load(open('quizz.json')))
         print(self.get_quizz())
-
-# FireConnection()._setup()
