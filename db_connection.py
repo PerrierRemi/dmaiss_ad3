@@ -1,51 +1,31 @@
-"""Manage connection to FireBase database."""
-import firebase
+import json
 
-# Etienne code
-
-firebase = firebase.FirebaseApplication("https://dmaiss-ad3-db.firebaseio.com/", None)
-
-data = {
-    'Answers' : ['Q1A1', 'Q2A2']
-}
-#Write the answers in a new users
-post_result = firebase.post('/Users/', data)
-print("Well posted ! Don't spam post !")
-
-# Return {'answers': [{'Q1A1': 'Cheap'}, {'Q1A2': 'Normal price'}, {'Q1A3': 'Over priced '}], 'question_type': 'close', 'txt': 'How would you rate the trip price ?'}
-get_result = firebase.get('Q1','')
-print(get_result)
-
-
-# Class to complete
+from firebase import firebase
+import pandas as pd
 
 class FireConnection():
     
     def __init__(self):
-        pass
-
-    
-    def open(self):
-        # Establish connection
-        pass
+        self.db = firebase.FirebaseApplication("https://dmaiss-ad3-onlinedb.firebaseio.com/", None)
 
     def get_data(self):
-        # Return pd.DataFrame (or json) of answers from all participants
-        pass
+        query = self.db.get('/answers/', None)
+        return pd.DataFrame.from_dict(query, orient='index').reset_index(drop=True)
 
     def get_quizz(self):
-        # Return quizz json (if we stock it online)
-        pass
+        query = self.db.get('/quizz/', None)
+        return query[list(query.keys())[-1]] # get last quizz version
+
+    def add_answers(self, answers):
+        self.db.post('/answers/', answers)
+
+    def update_quizz(self, quizz):
+        self.db.post('/quizz/', quizz)
 
 
-    def update_answers(self, data):
-        # Add participant answer to DB
-        pass
+    def _setup(self):
+        # Upload quizz for the first time
+        self.db.delete('/', None)
+        self.db.post('/quizz/', json.load(open('quizz.json')))
+        print(self.get_quizz())
 
-    def update_quizz(self, data):
-        # Update quizz (add new answer to open questions)
-        pass
-    
-    def close(self):
-        # Close connection
-        pass

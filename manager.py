@@ -20,39 +20,91 @@ Need to be done :
 import json
 
 from ui import View
-from AD3 import Node
+from AD3 import AD3, Node
+from db_connection import FireConnection
 
 class Manager():
 
     def __init__(self):
-        self.quizz = json.load(open('quizz.json', 'r'))
-        self.app = View(self.quizz)
+        self.db = FireConnection()
+        self.quizz = self.db.get_quizz()
+        self.data = self.db.get_data()
+
+        self.app = View()
+        
+        self.target_question = 'Q10'
         self.answers = {}
 
 
-    def show_question(self, qnode):
-        type = self.quizz[qnode.code_question]['question_type']
+    def main(self):
+        if len(self.data) > 15:
+            tree = AD3.create_tree(self.data)
+            self._smart_quizz(tree)
+
+        else:
+            self._all_quizz()
+
+        self.app.upload_screen()
+
+        self.db.add_answers(self.answers)
+        self.db.update_quizz(self.quizz)
+
+
+    def _question(self, qcode):
+        question = self.quizz[qcode]
+        acode = None
+
+        if question['question_type'] =='open': 
+            acode = self.__open_question(question, qcode)
+
+        if question['question_type'] == 'close': 
+            acode = self.__close_question(question)
+
+        self.answers[qcode] = acode
+
+        return acode
+
+    def __open_question(self, question, qcode):
+        self.app.show_open_question(question)
+        answer = self.app.get_answer()
+
+        # Search for ID, if none create one
+
+        for _code, _answer in question['answers'].items():
+            if _answer == answer:
+                return _code
         
-        self.app.hide_all()
+        new_code = qcode + 'A' + str(len(question['answers']))
+        question['answers'][new_code] = answer
+        
+        return new_code
 
-        if type =='open': 
-            self.app.show_open_question(qnode)
+    def __close_question(self, question):
+        self.app.show_close_question(question)
+        answer = self.app.get_answer()
+        return answer
 
-        if type == 'close': 
-            self.app.show_close_question(qnode)
+
+    def _smart_quizz(self, tree):
+        acode = self._question(tree.code_question)
+
+        if acode not in tree.next_questions:
+            self._all_quizz()
+
+        else:
+            tree = tree.next_questions[acode]
+            if tree.is_terminal():
+                self._question(self.target_question) # Ask final question
+            else:
+                self._smart_quizz(tree)
 
 
-    def all_quizz(self):
-        for qcode in self.quizz:
+    def _all_quizz(self):
+        for qcode in sorted(list(self.quizz.keys())):
             if qcode in self.answers: # If unknow answer for open question ask every no-asked question
                 continue
-            node = Node(qcode)
-            node.next_questions = self.quizz[qcode]['answers']
-            self.show_question(node)
-            user_answer = self.app.get_answer()
-            print(user_answer)
-            self.answers[qcode] = user_answer
+            self._question(qcode)
 
 
 m = Manager()
-m.all_quizz()
+m.main()
