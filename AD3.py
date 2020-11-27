@@ -51,13 +51,12 @@ class AD3():
         best_attribute = AD3.highest_gain(dataset_, target)
         tree = Node(best_attribute)
 
-        for value in unique(dataset_[best_attribute]):
+        for value in unique(dataset_[best_attribute].dropna()):
             # Get sub dataset
             sub_dataset_ = dataset_[dataset_[best_attribute] == value]
             sub_dataset_ = sub_dataset_.drop(best_attribute, axis=1)
 
             # Leaf ?
-            print(sub_dataset_)
             if len(unique(sub_dataset_[target].dropna())) == 1:
                 tree.next_questions[value] = Node(None, prediction=sub_dataset_[target].iloc[0])
 

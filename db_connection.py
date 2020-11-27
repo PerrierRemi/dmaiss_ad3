@@ -31,3 +31,5 @@ class FireConnection():
         # self.db.delete('/', None)
         self.db.post('/quizz/', json.load(open('quizz.json')))
         print(self.get_quizz())
+
+# FireConnection()._setup()
