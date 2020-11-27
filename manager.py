@@ -2,8 +2,8 @@
 import json
 from ui import View
 from AD3 import AD3, Node
-from multiprocessing import Process, freeze_support
 from db_connection import FireConnection
+from multiprocessing import Process, freeze_support
 
 class Manager():
 
@@ -32,6 +32,7 @@ class Manager():
 
         self.db.add_answers(self.answers)
         self.db.update_quizz(self.quizz)
+        self.app.window.close()
 
 
     def _question(self, qcode):
@@ -59,7 +60,7 @@ class Manager():
             if _answer == answer:
                 return _code
         
-        new_code = qcode + 'A' + str(len(question['answers']))
+        new_code = qcode + 'A' + str(len(question['answers'] + 1))
         question['answers'][new_code] = answer
         self.new_answer  = True
 
