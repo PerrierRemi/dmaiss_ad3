@@ -19,7 +19,8 @@ class Manager():
 
     def main(self):
         if len(self.data) > 15:
-            tree = AD3.create_tree(self.data)
+            tree = AD3.create_tree(self.data, self.target_question)
+            # AD3.tree_print(tree)
             self._smart_quizz(tree)
 
         else:
@@ -48,7 +49,8 @@ class Manager():
     def __open_question(self, question, qcode):
         self.app.show_open_question(question)
         answer = self.app.get_answer()
-
+        answer = '' if answer is None else answer
+        
         # Search for ID, if none create one
 
         for _code, _answer in question['answers'].items():
@@ -85,6 +87,7 @@ class Manager():
             if qcode in self.answers: # If unknow answer for open question ask every no-asked question
                 continue
             self._question(qcode)
+        return
 
 
 if __name__ == '__main__':

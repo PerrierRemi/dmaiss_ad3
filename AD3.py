@@ -64,6 +64,19 @@ class AD3():
                 tree.next_questions[value] = AD3.create_tree(sub_dataset_, target)
 
         return tree
+
+
+    # Bonus - Display tree
+    @staticmethod
+    def tree_print(tree, level=0):
+        if tree.is_terminal():
+            print(f"{'  ' * level}{tree.prediction}")
+
+        else:
+            print(f"{'  ' * level}{tree.code_question}")
+            for answer in tree.next_questions:
+                print(f"{'  ' * (level+1)}{answer}")
+                AD3.tree_print(tree.next_questions[answer], level+2)
     
 
 class Node():
