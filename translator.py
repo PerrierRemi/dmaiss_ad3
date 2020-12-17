@@ -1,4 +1,4 @@
-import requests as rq
+import http.client
 import json
 
 from secrets import MICROSOFT_TRANSLATE_API_KEY
@@ -6,7 +6,7 @@ from secrets import MICROSOFT_TRANSLATE_API_KEY
 # TODO: Add decorator for API call
 
 class Translator():
-    API_ROOT = 'https://microsoft-translator-text.p.rapidapi.com'
+    API_ROOT = 'microsoft-translator-text.p.rapidapi.com'
 
     def __init__(self):
         self.api_root = Translator.API_ROOT
@@ -25,32 +25,22 @@ class Translator():
 
 
     def _get_all_laguages(self): # TODO: Decode string
-        url = self.api_root + '/languages'
-
-        querystring = {
-            "api-version":"3.0",
-            "scope":"translation"}
+        conn = http.client.HTTPSConnection(self.api_root)
 
         headers = {
             'x-rapidapi-key': MICROSOFT_TRANSLATE_API_KEY,
             'x-rapidapi-host': "microsoft-translator-text.p.rapidapi.com"
             }
 
-        response = rq.request("GET", url, headers=headers, params=querystring)
+        conn.request("GET", "/languages?api-version=3.0", headers=headers)
 
-        return response.content
+        res = conn.getresponse()
+        data = json.loads(res.read().decode("utf-8"))
 
+        return data['translation']
 
     def _post_translate(self, message, language):
-        url = self.api_root + '/translate'
-
-        querystring = {
-            'to': language,
-            'api-version': '3.0',
-            'from': 'en', # From English by default
-            'profanityAction': 'NoAction',
-            'textType': 'plain'
-            }
+        conn = http.client.HTTPSConnection(self.api_root)
 
         payload = f"""
             [\r
@@ -60,20 +50,22 @@ class Translator():
             ]"""
 
         headers = {
-            'content-type': 'application/json',
+            'content-type': "application/json",
             'x-rapidapi-key': MICROSOFT_TRANSLATE_API_KEY,
-            'x-rapidapi-host': 'microsoft-translator-text.p.rapidapi.com'
+            'x-rapidapi-host': "microsoft-translator-text.p.rapidapi.com"
             }
 
-        response = rq.request("POST", url, data=payload, headers=headers, params=querystring)
-        traduction = json.loads(response.content)
-        return traduction[0]['translations'][0]['text']
+        conn.request("POST", f"/translate?to={language}&api-version=3.0&from=en&profanityAction=NoAction&textType=plain", payload, headers)
+
+        res = conn.getresponse()
+        data = json.loads(res.read().decode("utf-8"))
+
+        return data[0]['translations'][0]['text']
+
 
 
 # Testing
 if __name__ == '__main__':
-    import json
     from pprint import pprint
-    quizz = json.load(open('quizz.json', 'r'))
-    tq = Translator().translate_quizz(quizz, 'fr')
-    pprint(tq)
+    pprint(Translator()._get_all_laguages())
+    pprint(Translator()._post_translate('Dog', 'en'))
