@@ -1,15 +1,22 @@
 
 import json
+
 from ui import View
 from AD3 import AD3, Node
 from db_connection import FireConnection
+from translator import Translator
+
 from multiprocessing import Process, freeze_support
 
 class Manager():
 
     def __init__(self):
         self.db = FireConnection()
-        self.quizz = self.db.get_quizz()
+        
+        self.language_quizz = {'en': self.db.get_quizz()}
+        self.quizz = self.language_quizz['en'] # By default
+        self.translator = Translator
+
         self.data = self.db.get_data()
 
         self.app = View()
@@ -33,6 +40,14 @@ class Manager():
         self.db.add_answers(self.answers)
         self.db.update_quizz(self.quizz)
         self.app.window.close()
+
+
+    def _translate_quizz(self, language):
+        if language not in self.language_quizz:
+            tq = self.Translator.translate_quizz(self.language_quizz['en'], language)
+            self.language_quizz[language] = tq
+
+        self.quizz = self.language_quizz[language]
 
 
     def _question(self, qcode):
