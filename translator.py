@@ -24,7 +24,7 @@ class Translator():
         return tq
 
 
-    def _get_all_laguages(self): # TODO: Decode string
+    def _get_all_languages(self): 
         conn = http.client.HTTPSConnection(self.api_root)
 
         headers = {
@@ -37,7 +37,11 @@ class Translator():
         res = conn.getresponse()
         data = json.loads(res.read().decode("utf-8"))
 
-        return data['translation']
+        data = data['translation']
+        map_name_id = {data[key]['nativeName']: key for key in data}
+
+        return map_name_id
+        
 
     def _post_translate(self, message, language):
         conn = http.client.HTTPSConnection(self.api_root)
@@ -66,6 +70,4 @@ class Translator():
 
 # Testing
 if __name__ == '__main__':
-    from pprint import pprint
-    pprint(Translator()._get_all_laguages())
-    pprint(Translator()._post_translate('Dog', 'en'))
+    print(Translator()._get_all_languages())

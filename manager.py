@@ -1,5 +1,6 @@
 
 import json
+from time import sleep
 
 from ui import View
 from AD3 import AD3, Node
@@ -15,7 +16,7 @@ class Manager():
         
         self.language_quizz = {'en': self.db.get_quizz()}
         self.quizz = self.language_quizz['en'] # By default
-        self.translator = Translator
+        self.translator = Translator()
 
         self.data = self.db.get_data()
 
@@ -27,11 +28,20 @@ class Manager():
 
 
     def main(self):
+        # Language
+        lan_map = self.translator._get_all_languages()
+        self.app.show_language(lan_map)
+        lan = self.app.get_answer()
+        self._translate_quizz(lan_map[lan])
+        self.app.switch_button()
+
+        # Custom Form
         if len(self.data) > 15:
             tree = AD3.create_tree(self.data, self.target_question)
             AD3.tree_print(tree)
             self._smart_quizz(tree)
 
+        # All Form
         else:
             self._all_quizz()
 
@@ -39,12 +49,13 @@ class Manager():
 
         self.db.add_answers(self.answers)
         self.db.update_quizz(self.quizz)
+        sleep(1.5)
         self.app.window.close()
 
 
     def _translate_quizz(self, language):
         if language not in self.language_quizz:
-            tq = self.Translator.translate_quizz(self.language_quizz['en'], language)
+            tq = self.translator.translate_quizz(self.language_quizz['en'], language)
             self.language_quizz[language] = tq
 
         self.quizz = self.language_quizz[language]
