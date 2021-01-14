@@ -65,6 +65,9 @@ class View():
 
             # Return answer code
             for key in values:
+                if key =='lan':
+                    continue
+                
                 if values[key]:
                     return self.window.FindElement(key).acode
 
