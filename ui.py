@@ -43,6 +43,7 @@ class View():
     def upload_screen(self):
         self.hide_all()
         self.window.FindElement('question').update('Uploadind your answers... Thank you!')
+        self.window.read(timeout=0.1)
         
 
     def hide_all(self):
@@ -76,7 +77,8 @@ class View():
             self.window.FindElement('start').update(visible=False)
             self.window.FindElement('question').update('Traduction is being done, please wait!')
             self.window.read(timeout=0.1)
-            return values['lan'][0]
+            lan = 'English' if values['lan'] == [] else values['lan'][0]
+            return lan
 
         if event == sg.WIN_CLOSED or event == 'Exit':
             self.window.Close()

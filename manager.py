@@ -48,7 +48,7 @@ class Manager():
         self.app.upload_screen()
 
         self.db.add_answers(self.answers)
-        self.db.update_quizz(self.quizz)
+        self.db.update_quizz(self.language_quizz['en'])
         sleep(1.5)
         self.app.window.close()
 
